@@ -22,6 +22,9 @@ pip3 install -r src/requirements.txt
 python3 gemwrap.py
 ```
 
+<img width="852" alt="Screenshot 2022-10-02 at 19 55 40" src="https://user-images.githubusercontent.com/25537601/193471190-0d80f12d-deb5-4fd3-8d81-f5cd3fb91f80.png">
+
+
 ## Author
 
 👤 **Dan Holdsworth**
@@ -35,6 +38,3 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
