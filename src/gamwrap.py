@@ -10,12 +10,6 @@ from inquirer import errors
 from pprint import pprint
 import re
 
-
-os.environ['USER'] = 'username'
-
-_EXIT_WORDS = ["quit", "exit", "leave"]
-
-#--------------------------------------------
 def welcome():
     print(r"""                                                                             
                                      ____                                            ,-.----.    
@@ -54,8 +48,8 @@ def return_to_main():
     if answers['return_to_menu'] == True:
         gam_menu()
     else:
-        print("Exiting...")
-        exit(1)
+        print("exiting...")
+        sys.exit(1)
 
 def gam_menu():
     questions = [
