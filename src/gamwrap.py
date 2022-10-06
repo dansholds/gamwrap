@@ -101,6 +101,7 @@ def update_calendar():
 
     # function for updating calendar
     def cal_update(opt):
+        opt=opt.lower()
         update_questions = [
             inquirer.Text('calendar',
                         message="What's the calendar?",
@@ -127,16 +128,8 @@ def update_calendar():
         else:
             return_to_main()
 
-    # Start logic to pivot between different options
-    if answers['calendar_menu'] == 'Editor':
-        cal_update(opt='editor')
-    elif answers['calendar_menu'] == "Owner":
-        cal_update(opt='owner')
-    elif answers['calendar_menu'] == "Read":
-        cal_update(opt='read')
-    else:
-        print("Returning to main menu")
-        gam_menu()
+    # call cal_update function with the option the user selected
+    cal_update(opt=answers['calendar_menu'])
 
 def main():
     welcome()
