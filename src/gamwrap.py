@@ -97,12 +97,11 @@ def update_calendar():
                     choices=['Read', 'Editor', 'Owner'],
                 ),
     ]
-
-    # Start logic to pivot between different options
     answers = inquirer.prompt(questions)
-    if answers['calendar_menu'] == 'Editor':
-        # Ask user for calander and user
-        editor_questions = [
+
+    # function for updating calendar
+    def cal_update(opt):
+        update_questions = [
             inquirer.Text('calendar',
                         message="What's the calendar?",
                         validate=email_validation,
@@ -113,68 +112,28 @@ def update_calendar():
                         )
         ]
         # Confirm with user that they want to make the change
-        editor_answers = inquirer.prompt(editor_questions)
+        update_answers = inquirer.prompt(update_questions)
         confirm = [
-            inquirer.Confirm('confirm_editor',
-                        message="Are you sure you want to make {} an editor of {}?".format(editor_answers['user'], editor_answers['calendar'])),
+            inquirer.Confirm('confirm_' + opt,
+                        message="Are you sure you want to make {} a {} of {}?".format(update_answers['user'], opt, update_answers['calendar'])),
         ]
         confirm_answers = inquirer.prompt(confirm)
         # If they confirm, make the change
-        if confirm_answers['confirm_editor'] == True:
-            print("Making {} an editor of {}".format(editor_answers['user'], editor_answers['calendar']))
-            print("gam calendar {} add editor {}".format(editor_answers['calendar'], editor_answers['user']))
+        if confirm_answers['confirm_' + opt] == True:
+            print("Making {} a {} of {}".format(update_answers['user'], opt, update_answers['calendar']))
+            print("gam calendar {} add {} {}".format(update_answers['calendar'], opt, update_answers['user']))
             sleep(2)
             return_to_main()
         else:
             return_to_main()
+
+    # Start logic to pivot between different options
+    if answers['calendar_menu'] == 'Editor':
+        cal_update(opt='editor')
     elif answers['calendar_menu'] == "Owner":
-        owner_questions = [
-            inquirer.Text('calendar',
-                        message="What's the calendar?",
-                        validate=email_validation,
-            ),
-            inquirer.Text('user',
-                        message="What's the users email",
-                        validate=email_validation,
-                        )
-        ]
-        owner_answers = inquirer.prompt(owner_questions)
-        confirm = [
-            inquirer.Confirm('confirm_owner',
-                        message="Are you sure you want to make {} an owner of {}?".format(owner_answers['user'], owner_answers['calendar'])),
-        ]
-        confirm_answers = inquirer.prompt(confirm)
-        if confirm_answers['confirm_owner'] == True:
-            print("Making {} an owner of {}".format(owner_answers['user'], owner_answers['calendar']))
-            print("gam calendar {} add owner {}".format(owner_answers['calendar'], owner_answers['user']))
-            sleep(2)
-            return_to_main()
-        else:
-            return_to_main()
+        cal_update(opt='owner')
     elif answers['calendar_menu'] == "Read":
-        read_questions = [
-            inquirer.Text('calendar',
-                        message="What's the calendar?",
-                        validate=email_validation,
-            ),
-            inquirer.Text('user',
-                        message="What's the users email",
-                        validate=email_validation,
-                        )
-        ]
-        read_answers = inquirer.prompt(read_questions)
-        confirm = [
-            inquirer.Confirm('confirm_read',
-                        message="Are you sure you want to make {} a reader of {}?".format(read_answers['user'], read_answers['calendar'])),
-        ]
-        confirm_answers = inquirer.prompt(confirm)
-        if confirm_answers['confirm_read'] == True:
-            print("Making {} a reader of {}".format(read_answers['user'], read_answers['calendar']))
-            print("gam calendar {} add reader {}".format(read_answers['calendar'], read_answers['user']))
-            sleep(2)
-            return_to_main()
-        else:
-            return_to_main()
+        cal_update(opt='read')
     else:
         print("Returning to main menu")
         gam_menu()
