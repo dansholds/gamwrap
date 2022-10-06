@@ -126,12 +126,58 @@ def update_calendar():
             sleep(2)
             return_to_main()
         else:
-            print("Returning to main menu")
-            gam_menu()
-    # If they pick anything other than Update it will ask to return to the main menu
+            return_to_main()
+    elif answers['calendar_menu'] == "Owner":
+        owner_questions = [
+            inquirer.Text('calendar',
+                        message="What's the calendar?",
+                        validate=email_validation,
+            ),
+            inquirer.Text('user',
+                        message="What's the users email",
+                        validate=email_validation,
+                        )
+        ]
+        owner_answers = inquirer.prompt(owner_questions)
+        confirm = [
+            inquirer.Confirm('confirm_owner',
+                        message="Are you sure you want to make {} an owner of {}?".format(owner_answers['user'], owner_answers['calendar'])),
+        ]
+        confirm_answers = inquirer.prompt(confirm)
+        if confirm_answers['confirm_owner'] == True:
+            print("Making {} an owner of {}".format(owner_answers['user'], owner_answers['calendar']))
+            print("gam calendar {} add owner {}".format(owner_answers['calendar'], owner_answers['user']))
+            sleep(2)
+            return_to_main()
+        else:
+            return_to_main()
+    elif answers['calendar_menu'] == "Read":
+        read_questions = [
+            inquirer.Text('calendar',
+                        message="What's the calendar?",
+                        validate=email_validation,
+            ),
+            inquirer.Text('user',
+                        message="What's the users email",
+                        validate=email_validation,
+                        )
+        ]
+        read_answers = inquirer.prompt(read_questions)
+        confirm = [
+            inquirer.Confirm('confirm_read',
+                        message="Are you sure you want to make {} a reader of {}?".format(read_answers['user'], read_answers['calendar'])),
+        ]
+        confirm_answers = inquirer.prompt(confirm)
+        if confirm_answers['confirm_read'] == True:
+            print("Making {} a reader of {}".format(read_answers['user'], read_answers['calendar']))
+            print("gam calendar {} add reader {}".format(read_answers['calendar'], read_answers['user']))
+            sleep(2)
+            return_to_main()
+        else:
+            return_to_main()
     else:
-        print("Not implemented yet")
-        return_to_main()
+        print("Returning to main menu")
+        gam_menu()
 
 def main():
     welcome()
