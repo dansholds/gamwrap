@@ -22,8 +22,7 @@ pip3 install -r src/requirements.txt
 python3 gemwrap.py
 ```
 
-<img width="852" alt="Screenshot 2022-10-02 at 19 55 40" src="https://user-images.githubusercontent.com/25537601/193471190-0d80f12d-deb5-4fd3-8d81-f5cd3fb91f80.png">
-
+https://user-images.githubusercontent.com/25537601/194411340-ffd1fa5e-0b42-47ae-83ff-de8e4beaa294.mov
 
 ## Author
 
