@@ -31,13 +31,13 @@ def welcome():
 
 def check():
     print("Checking if gam is installed...")
-    sleep(2)
-    if not os.path.isfile('/Users/dholdsworth/bin/gam/gam'):
+    sleep(1)
+    if not os.path.isfile('/Users/'+ os.environ.get('USER') +'/bin/gam/gam'):
         print('GAM is not installed. Please install it first.')
         sys.exit(1)
     else:
         print('GAM is installed.')
-        sleep(2)
+        sleep(1)
 
 def return_to_main():
     questions = [
@@ -55,13 +55,16 @@ def gam_menu():
     questions = [
         inquirer.List('menu',
                     message="What GAM option do you want?",
-                    choices=['Calendar', 'Users', 'Groups', 'Drive'],
+                    choices=['Calendar', 'Users', 'Groups', 'Drive', 'Exit'],
                 ),
     ]
 
     answers = inquirer.prompt(questions)
     if answers['menu'] == 'Calendar':
         calendar_menu()
+    elif answers['menu'] == 'Exit':
+        print("exiting...")
+        sys.exit(1)
     else:
         print("Not implemented yet")
         return_to_main()
