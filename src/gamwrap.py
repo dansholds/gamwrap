@@ -80,6 +80,8 @@ def calendar_menu():
     answers = inquirer.prompt(questions)
     if answers['calendar_menu'] == 'Update':
         update_calendar()
+    elif answers['calendar_menu'] == 'Delete':
+        delete_calendar()
     else:
         print("Not implemented yet")
         return_to_main()
@@ -133,6 +135,56 @@ def update_calendar():
 
     # call cal_update function with the option the user selected
     cal_update(opt=answers['calendar_menu'])
+
+def delete_calendar():
+    # Regex and function to validate email addresses
+    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    def email_validation(editor_answers, current):
+        if not re.match(regex, current):
+            raise errors.ValidationError('', reason='I don\'t like thats users email!')
+
+        return True
+
+    # Ask the user if they want to update read, editor or owner of calendar
+    questions = [
+        inquirer.List('calendar_menu',
+                    message="What do you want to delete?",
+                    choices=['User'],
+                ),
+    ]
+    answers = inquirer.prompt(questions)
+
+    # function for deleting a user in calander
+    def cal_delete(opt):
+        opt=opt.lower()
+        update_questions = [
+            inquirer.Text('calendar',
+                        message="What's the calendar?",
+                        validate=email_validation,
+            ),
+            inquirer.Text('user',
+                        message="What's the users email",
+                        validate=email_validation,
+                        )
+        ]
+        # Confirm with user that they want to make the change
+        update_answers = inquirer.prompt(update_questions)
+        confirm = [
+            inquirer.Confirm('confirm_' + opt,
+                        message="Are you sure you want to delete {} from {}?".format(update_answers['user'], update_answers['calendar'])),
+        ]
+        confirm_answers = inquirer.prompt(confirm)
+        # If they confirm, make the change
+        if confirm_answers['confirm_' + opt] == True:
+            print("Deleting {} from {}".format(update_answers['user'], update_answers['calendar']))
+            print("gam calendar {} delete user {}".format(update_answers['calendar'], update_answers['user']))
+            sleep(2)
+            return_to_main()
+        else:
+            return_to_main()
+
+    # call cal_update function with the option the user selected
+    cal_delete(opt=answers['calendar_menu'])
 
 def main():
     welcome()
