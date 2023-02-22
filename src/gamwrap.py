@@ -3,7 +3,7 @@
 import os
 from secrets import choice
 import sys
-import subprocess
+#import subprocess # Not using this yet as just printing out the GAM command rather than executing it
 from time import sleep
 import inquirer
 from inquirer import errors
@@ -30,6 +30,7 @@ def welcome():
                 """)
 
 def check():
+    """Check if GAM is installed"""
     print("Checking if gam is installed...")
     sleep(1)
     if not os.path.isfile('/Users/'+ os.environ.get('USER') +'/bin/gam/gam'):
@@ -40,6 +41,7 @@ def check():
         sleep(1)
 
 def return_to_main():
+    """Return to main menu or exit"""
     questions = [
         inquirer.Confirm('return_to_menu',
                     message="Return to main menu?"),
@@ -52,6 +54,7 @@ def return_to_main():
         sys.exit(1)
 
 def gam_menu():
+    """Main menu for GAM options"""
     questions = [
         inquirer.List('menu',
                     message="What GAM option do you want?",
@@ -70,23 +73,25 @@ def gam_menu():
         return_to_main()
 
 def calendar_menu():
+    """Menu for GAM Calendar options"""
     questions = [
         inquirer.List('calendar_menu',
                     message="What GAM Calendar option do you want?",
-                    choices=['Create', 'Update', 'Delete'],
+                    choices=['Create', 'Update', 'Delete User'],
                 ),
     ]
 
     answers = inquirer.prompt(questions)
     if answers['calendar_menu'] == 'Update':
         update_calendar()
-    elif answers['calendar_menu'] == 'Delete':
-        delete_calendar()
+    elif answers['calendar_menu'] == 'Delete User':
+        delete_calendar_user()
     else:
         print("Not implemented yet")
         return_to_main()
 
 def update_calendar():
+    """Update calendar main menu"""
     # Regex and function to validate email addresses
     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
     def email_validation(editor_answers, current):
@@ -106,6 +111,7 @@ def update_calendar():
 
     # function for updating calendar
     def cal_update(opt):
+        """Function for making the update to the calendar"""
         opt=opt.lower()
         update_questions = [
             inquirer.Text('calendar',
@@ -136,7 +142,8 @@ def update_calendar():
     # call cal_update function with the option the user selected
     cal_update(opt=answers['calendar_menu'])
 
-def delete_calendar():
+def delete_calendar_user():
+    """Delete user from calendar"""
     # Regex and function to validate email addresses
     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
     def email_validation(editor_answers, current):
@@ -156,6 +163,7 @@ def delete_calendar():
 
     # function for deleting a user in calander
     def cal_delete(opt):
+        """Function for deleting a user from a calendar"""
         opt=opt.lower()
         update_questions = [
             inquirer.Text('calendar',
